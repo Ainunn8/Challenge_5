@@ -14,6 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table (name = "Product")
 public class Product implements Serializable {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -31,6 +32,5 @@ public class Product implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Users users;
-
 
 }

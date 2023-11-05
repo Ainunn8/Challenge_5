@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "Order")
 public class Order implements Serializable {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -31,7 +29,5 @@ public class Order implements Serializable {
     @Column(length = 5)
     private String userId;
     private String completed;
-
-
 
 }

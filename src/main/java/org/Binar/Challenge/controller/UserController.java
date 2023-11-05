@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.Binar.Challenge.model.Product;
 import org.Binar.Challenge.model.Users;
 import org.Binar.Challenge.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,23 +43,31 @@ public class UserController {
 
     // Mengupdate User
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/update/{userid}")
-    public String updateUsers(@RequestParam("newUserid") String newUserid,
-                              @PathVariable("oldUserid") String oldUserid,
-                              @RequestHeader("Accept-Languange") String acceptLanguage,
-                              @RequestBody Users users) {
-        log.info("Accept-Language - {}", acceptLanguage);
-        userService.updateUsers(oldUserid,newUserid );
-        return "update movie successful!";
+    @PutMapping("/{id}")
+    public ResponseEntity<Users> updateUser(@PathVariable String id, @RequestBody Users updatedUser) {
+        Users existingUser = userService.getUserById(id);
+
+        if (existingUser == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Lakukan update data pengguna
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setPassword(updatedUser.getPassword());
+
+        Users updateUser = userService.updateUser(existingUser);
+        return ResponseEntity.ok(updatedUser);
     }
+
 
     // Menghapus User
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{userid}")
-    public String deleteMovie(@PathVariable("userid") String userid) {
-        userService.deleteUsers(userid);
-        return "Delete user " + userid + " success!";
+    @DeleteMapping("/delete/{User}")
+    public ResponseEntity deleteUsers(@PathVariable String username) {
+        userService.deleteUsers(username);
+        return ResponseEntity.ok("Product deleted successfully");
     }
+
 
     @GetMapping(value = "/detail")
     @Operation(summary = "Getting detail of one User by product code")
