@@ -20,6 +20,8 @@ public interface MerchantRepository extends JpaRepository<Merchant, Integer> {
             @Param("location") String location,
             @Param("isOpen") boolean isOpen
     );
+
+    Merchant findByMerchantCode(int merchantCode);
     @Modifying
     @Query("UPDATE Merchant m SET m.isOpen = :isOpen WHERE m.merchantCode = :merchantCode")
     void editMerchantStatus(@Param("merchantCode") int merchantCode, @Param("isOpen") String isOpen);

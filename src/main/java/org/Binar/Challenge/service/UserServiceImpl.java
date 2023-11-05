@@ -24,15 +24,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUsers(String oldUserid, String newUserid ) {
-        try{
-            userRepository.editUser(oldUserid, newUserid);
-            return true;
-        } catch(Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    public Users updateUser(Users user) {
+        return userRepository.save(user);
     }
+
+    @Override
+    public Users getUserById(String id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
 
     @Override
     public void deleteUsers(String usersId) {

@@ -24,6 +24,16 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
+    public Merchant updateMerchant(Merchant merchant) {
+        return merchantRepository.save(merchant);
+    }
+
+    @Override
+    public Merchant getMerchantByCode(int merchantCode) {
+        return merchantRepository.findByMerchantCode(merchantCode);
+    }
+
+    @Override
     public Merchant editMerchantStatus(int merchantCode, String isOpen) {
         return null; // Merchant not found
     }
