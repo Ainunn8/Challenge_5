@@ -31,6 +31,25 @@ public class MerchantController {
         return ResponseEntity.ok("Add new merchant successful!");
 
     }
+
+    // Mengupdate detail merchant
+    @PutMapping("/{merchantCode}")
+    public ResponseEntity<Merchant> updateMerchant(@PathVariable int merchantCode, @RequestBody Merchant updatedMerchant) {
+        Merchant existingMerchant = merchantService.getMerchantByCode(merchantCode);
+
+        if (existingMerchant == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Lakukan update data merchant
+        existingMerchant.setNameMerchant(updatedMerchant.getNameMerchant());
+        existingMerchant.setLocation(updatedMerchant.getLocation());
+        existingMerchant.setIsOpen(updatedMerchant.getIsOpen());
+
+        Merchant updateMerchant = merchantService.updateMerchant(existingMerchant);
+        return ResponseEntity.ok(updatedMerchant);
+    }
+
     //Edit status merchant buka/tutup
     @PutMapping("/{id}/status")
     public ResponseEntity editMerchantStatus(
@@ -43,7 +62,6 @@ public class MerchantController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
     // Menampilkan Merchant yang Sedang Buka
     @GetMapping("/Open")

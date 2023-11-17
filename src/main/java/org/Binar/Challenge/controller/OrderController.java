@@ -24,7 +24,7 @@ public class OrderController {
 
     // Membuat pesanan
     @PostMapping("/create")
-    public ResponseEntity<Order> createOrder(
+    public ResponseEntity<Order> makeOrder(
             @RequestBody OrderRequest orderRequest
     ) {
         // Anda perlu membuat OrderRequest yang berisi userId, produk, alamat pengiriman, dan tujuan

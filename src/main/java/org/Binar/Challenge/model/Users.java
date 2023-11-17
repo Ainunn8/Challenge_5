@@ -7,15 +7,24 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Users implements Serializable {
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
+
+public class Users  {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -23,20 +32,32 @@ public class Users implements Serializable {
             strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @Column(name = "username", length = 100, unique = true)
+    @NotBlank
+    @Size(max = 20)
     private String username;
 
-    @Column(name = "email_address", length = 100)
+    @NotBlank
+    @Size(max = 50)
+    @Email
     private String email;
 
-    @Column(name = "password", length = 20)
+    @NotBlank
+    @Size(max = 120)
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private List<Merchant> merchants;
-    @OneToMany
-    private List<Product> product;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Roles> roles = new HashSet<>();
 
+//    @OneToMany(mappedBy = "user")
+//    private List<Merchant> merchants;
+//    @OneToMany
+//    private List<Product> product;
 
+    public Users(String username, String email, String encode) {
+}
 
+    private String provider;
 }

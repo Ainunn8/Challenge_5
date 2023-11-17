@@ -10,7 +10,9 @@ public interface UserService {
     Users addUsers(Users users);
 
     // Mengupdate detail user
-    boolean updateUsers(String users, String newUserid);
+    Users updateUser(Users user);
+    Users getUserById(String id);
+
 
     // Menghapus user berdasarkan userId
     void deleteUsers(String usersId);

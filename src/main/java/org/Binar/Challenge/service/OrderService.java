@@ -2,6 +2,7 @@ package org.Binar.Challenge.service;
 
 import org.Binar.Challenge.model.Order;
 import org.Binar.Challenge.model.Product;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,4 +12,7 @@ public interface OrderService {
 
     // Menampilkan semua pesanan
     List<Order> getAllOrders(String userId);
+
+    @Transactional(readOnly = true)
+    Order getOrderDetails(String OrderId);
 }
